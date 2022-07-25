@@ -3,29 +3,32 @@ package programming.dao;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import programming.bean.Mentor;
 import programming.bean.ProgrammingLanguage;
 import programming.util.HibernateSessionFactoryUtil;
 
-public class ProgrammingLanguageDao implements Dao<ProgrammingLanguage>{
+public class ProgrammingLanguageDao implements Dao<ProgrammingLanguage> {
     @Override
     public ProgrammingLanguage save(ProgrammingLanguage programmingLanguage) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
+        Integer id = null;
         try {
-            Integer id = (Integer) session.save(programmingLanguage);
-            programmingLanguage = findById(id);
+            id = (Integer) session.save(programmingLanguage);
         } catch (HibernateException e) {
             transaction.rollback();
         }
         transaction.commit();
         session.close();
+        programmingLanguage = findById(id);
         return programmingLanguage;
     }
 
     @Override
     public ProgrammingLanguage findById(Integer id) {
-        return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(ProgrammingLanguage.class, id);
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        ProgrammingLanguage programmingLanguage = session.get(ProgrammingLanguage.class, id);
+        session.close();
+        return programmingLanguage;
     }
 
     @Override

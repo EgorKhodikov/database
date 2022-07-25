@@ -36,19 +36,4 @@ public enum Operation {
         }
         return null;
     }
-
-    public static void buildMenu() {
-        System.out.println(FIRST.operationNumber + ". " + FIRST.operationTitle + "\n" +
-                SECOND.operationNumber + ". " + SECOND.operationTitle + "\n" +
-                THIRD.operationNumber + ". " + THIRD.operationTitle + "\n" +
-                FOURTH.operationNumber + ". " + FOURTH.operationTitle + "\n" +
-                FIFTH.operationNumber + ". " + FIFTH.operationTitle + "\n" +
-                SIXTH.operationNumber + ". " + SIXTH.operationTitle + "\n" +
-                SEVENTH.operationNumber + ". " + SEVENTH.operationTitle + "\n" +
-                EIGHTH.operationNumber + ". " + EIGHTH.operationTitle + "\n" +
-                NINTH.operationNumber + ". " + NINTH.operationTitle + "\n" +
-                TENTH.operationNumber + ". " + TENTH.operationTitle + "\n" +
-                ELEVENTH.operationNumber + ". " + ELEVENTH.operationTitle + "\n" +
-                TWELFTH.operationNumber + ". " + TWELFTH.operationTitle);
-    }
 }

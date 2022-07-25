@@ -1,6 +1,7 @@
 package programming;
 
 import programming.enums.Operation;
+import programming.enums.Table;
 import programming.service.MentorService;
 import programming.service.ProgrammingLanguageService;
 import programming.service.StudentService;
@@ -16,10 +17,14 @@ public class Application {
         ProgrammingLanguageService programmingLanguageService = new ProgrammingLanguageService();
 
         while (true) {
-            Operation.buildMenu();
+            Table.buildMenu();
+            System.out.println("Введите номер таблицы.");
+            int tableNumber = scanner.nextInt();
+            Table table = Table.findByTableNumber(tableNumber);
+            if (table == null) System.out.println("Введён неверный номер таблицы");
+            else Table.showOperations(table);
             System.out.println("Введите номер операции.");
             int operationNumber = scanner.nextInt();
-            scanner.nextLine(); // не работает nextLine в сервисах без этого
             Operation operation = Operation.findByOperationNumber(operationNumber);
             if (operation == null) System.out.println("Введён неверный номер операции");
             else {

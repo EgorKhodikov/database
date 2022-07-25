@@ -4,28 +4,31 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import programming.bean.Mentor;
-import programming.bean.Student;
 import programming.util.HibernateSessionFactoryUtil;
 
-public class MentorDao implements Dao<Mentor>{
+public class MentorDao implements Dao<Mentor> {
     @Override
     public Mentor save(Mentor mentor) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
+        Integer id = null;
         try {
-            Integer id = (Integer) session.save(mentor);
-            mentor = findById(id);
+            id = (Integer) session.save(mentor);
         } catch (HibernateException e) {
             transaction.rollback();
         }
         transaction.commit();
         session.close();
+        mentor = findById(id);
         return mentor;
     }
 
     @Override
     public Mentor findById(Integer id) {
-        return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(Mentor.class, id);
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Mentor mentor = session.get(Mentor.class, id);
+        session.close();
+        return mentor;
     }
 
     @Override

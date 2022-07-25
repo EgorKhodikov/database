@@ -10,11 +10,17 @@ public class MentorService {
     public void findById() {
         System.out.println("Введите ID ментора.");
         Integer id = Application.scanner.nextInt();
-        Mentor mentor = mentorDao.findById(id);
-        System.out.println(mentor.toString());
+        try {
+            Mentor mentor = mentorDao.findById(id);
+            if (mentor == null) throw new NullPointerException();
+            System.out.println(mentor.toString());
+        } catch (NullPointerException e) {
+            System.out.println("Ментор с таким ID не найден");
+        }
     }
 
     public void save() {
+        Application.scanner.nextLine(); // не работает nextLine без этого
         System.out.println("Введите фамилию ментора.");
         String lastName = Application.scanner.nextLine();
         Mentor mentor = new Mentor(lastName);
@@ -25,17 +31,29 @@ public class MentorService {
     public void update() {
         System.out.println("Введите ID ментора для обновления.");
         Integer id = Application.scanner.nextInt();
-        System.out.println("Введите новую фамилию ментора.");
-        String lastName = Application.scanner.nextLine();
-        Mentor mentor = mentorDao.findById(id);
-        mentor.setLastName(lastName);
-        mentorDao.update(mentor);
+        try {
+            Mentor mentor = mentorDao.findById(id);
+            if (mentor == null) throw new NullPointerException();
+            Application.scanner.nextLine(); // не работает nextLine без этого
+            System.out.println("Введите новую фамилию ментора.");
+            String lastName = Application.scanner.nextLine();
+            mentor.setLastName(lastName);
+            mentorDao.update(mentor);
+        } catch (NullPointerException e) {
+            System.out.println("Ментор с таким ID не найден");
+        }
     }
 
     public void delete() {
         System.out.println("Введите ID ментора для удаления из базы");
         Integer id = Application.scanner.nextInt();
-        Mentor mentor = mentorDao.findById(id);
-        mentorDao.delete(mentor);
+        try {
+            Mentor mentor = mentorDao.findById(id);
+            if (mentor == null) throw new NullPointerException();
+            mentorDao.delete(mentor);
+            System.out.println("Ментор удалён");
+        } catch (NullPointerException e) {
+            System.out.println("Ментор с таким ID не найден");
+        }
     }
 }

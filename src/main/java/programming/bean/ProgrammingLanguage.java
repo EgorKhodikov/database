@@ -8,6 +8,7 @@ import java.util.List;
 public class ProgrammingLanguage {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "language_name")

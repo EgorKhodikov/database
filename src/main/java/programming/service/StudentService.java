@@ -12,6 +12,7 @@ public class StudentService {
         Integer id = Application.scanner.nextInt();
         try {
             Student student = studentDao.findById(id);
+            if (student == null) throw new NullPointerException();
             System.out.println(student.toString());
         } catch (NullPointerException e) {
             System.out.println("Студент с таким ID не найден");
@@ -19,6 +20,7 @@ public class StudentService {
     }
 
     public void save() {
+        Application.scanner.nextLine(); // не работает nextLine без этого
         System.out.println("Введите фамилию студента.");
         String lastName = Application.scanner.nextLine();
         System.out.println("Введите этап.");
@@ -31,15 +33,18 @@ public class StudentService {
     public void update() {
         System.out.println("Введите ID студента для обновления.");
         Integer id = Application.scanner.nextInt();
-        System.out.println("Введите новую фамилию студента.");
-        String lastName = Application.scanner.nextLine();
-        System.out.println("Введите этап.");
-        Integer stage = Application.scanner.nextInt();
         try {
             Student student = studentDao.findById(id);
+            if (student == null) throw new NullPointerException();
+            Application.scanner.nextLine(); // не работает nextLine без этого
+            System.out.println("Введите новую фамилию студента.");
+            String lastName = Application.scanner.nextLine();
+            System.out.println("Введите этап.");
+            Integer stage = Application.scanner.nextInt();
             student.setLastName(lastName);
             student.setStage(stage);
             studentDao.update(student);
+            System.out.println("Студент обновлён");
         } catch (NullPointerException e) {
             System.out.println("Студент с таким ID не найден");
         }
@@ -50,7 +55,9 @@ public class StudentService {
         Integer id = Application.scanner.nextInt();
         try {
             Student student = studentDao.findById(id);
+            if (student == null) throw new NullPointerException();
             studentDao.delete(student);
+            System.out.println("Студент удалён");
         } catch (NullPointerException e) {
             System.out.println("Студент с таким ID не найден");
         }

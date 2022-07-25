@@ -10,11 +10,17 @@ public class ProgrammingLanguageService {
     public void findById() {
         System.out.println("Введите ID языка.");
         Integer id = Application.scanner.nextInt();
-        ProgrammingLanguage programmingLanguage = programmingLanguageDao.findById(id);
-        System.out.println(programmingLanguage.toString());
+        try {
+            ProgrammingLanguage programmingLanguage = programmingLanguageDao.findById(id);
+            if (programmingLanguage == null) throw new NullPointerException();
+            System.out.println(programmingLanguage.toString());
+        } catch (NullPointerException e) {
+            System.out.println("Язык с таким ID не найден");
+        }
     }
 
     public void save() {
+        Application.scanner.nextLine(); // не работает nextLine без этого
         System.out.println("Введите название языка.");
         String languageName = Application.scanner.nextLine();
         ProgrammingLanguage programmingLanguage = new ProgrammingLanguage(languageName);
@@ -25,17 +31,30 @@ public class ProgrammingLanguageService {
     public void update() {
         System.out.println("Введите ID языка для обновления.");
         Integer id = Application.scanner.nextInt();
-        System.out.println("Введите новое название языка.");
-        String languageName = Application.scanner.nextLine();
-        ProgrammingLanguage programmingLanguage = programmingLanguageDao.findById(id);
-        programmingLanguage.setLanguageName(languageName);
-        programmingLanguageDao.update(programmingLanguage);
+        try {
+            ProgrammingLanguage programmingLanguage = programmingLanguageDao.findById(id);
+            if (programmingLanguage == null) throw new NullPointerException();
+            Application.scanner.nextLine(); // не работает nextLine без этого
+            System.out.println("Введите новое название языка.");
+            String languageName = Application.scanner.nextLine();
+            programmingLanguage.setLanguageName(languageName);
+            programmingLanguageDao.update(programmingLanguage);
+            System.out.println("Язык обновлён");
+        } catch (NullPointerException e) {
+            System.out.println("Язык с таким ID не найден");
+        }
     }
 
     public void delete() {
         System.out.println("Введите ID языка для удаления из базы");
         Integer id = Application.scanner.nextInt();
-        ProgrammingLanguage programmingLanguage = programmingLanguageDao.findById(id);
-        programmingLanguageDao.delete(programmingLanguage);
+        try {
+            ProgrammingLanguage programmingLanguage = programmingLanguageDao.findById(id);
+            if (programmingLanguage == null) throw new NullPointerException();
+            programmingLanguageDao.delete(programmingLanguage);
+            System.out.println("Язык удалён");
+        } catch (NullPointerException e) {
+            System.out.println("Язык с таким ID не найден");
+        }
     }
 }

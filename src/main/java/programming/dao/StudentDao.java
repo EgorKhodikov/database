@@ -6,26 +6,30 @@ import org.hibernate.Transaction;
 import programming.bean.Student;
 import programming.util.HibernateSessionFactoryUtil;
 
-public class StudentDao implements Dao<Student>{
+public class StudentDao implements Dao<Student> {
 
     @Override
     public Student save(Student student) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
+        Integer id = null;
         try {
-            Integer id = (Integer) session.save(student);
-            student = findById(id);
+            id = (Integer) session.save(student);
         } catch (HibernateException e) {
             transaction.rollback();
         }
         transaction.commit();
         session.close();
+        student = findById(id);
         return student;
     }
 
     @Override
     public Student findById(Integer id) {
-        return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(Student.class, id);
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Student student = session.get(Student.class, id);
+        session.close();
+        return student;
     }
 
     @Override
