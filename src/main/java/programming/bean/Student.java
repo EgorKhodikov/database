@@ -1,14 +1,11 @@
 package programming.bean;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "student")
-public class Student {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class Student extends BasePersist{
 
     @Column(name = "last_name")
     private String lastName;
@@ -30,10 +27,6 @@ public class Student {
     public Student(String lastName, Integer stage) {
         this.lastName = lastName;
         this.stage = stage;
-    }
-
-    public Integer getId() {
-        return id;
     }
 
     public String getLastName() {
@@ -71,6 +64,11 @@ public class Student {
     @Override
     public String toString() {
         return lastName + " stage: " + stage + " programming language: " + programmingLanguage + " mentor: " + mentor;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), lastName, stage, mentor, programmingLanguage);
     }
 }
 

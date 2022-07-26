@@ -2,14 +2,11 @@ package programming.bean;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "programming_language")
-public class ProgrammingLanguage {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class ProgrammingLanguage extends BasePersist{
 
     @Column(name = "language_name")
     private String languageName;
@@ -25,10 +22,6 @@ public class ProgrammingLanguage {
 
     public ProgrammingLanguage(String languageName) {
         this.languageName = languageName;
-    }
-
-    public Integer getId() {
-        return id;
     }
 
     public String getLanguageName() {
@@ -58,5 +51,10 @@ public class ProgrammingLanguage {
     @Override
     public String toString() {
         return languageName + " mentor: " + mentor + " students: " + students;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), languageName, mentor, students);
     }
 }

@@ -3,6 +3,7 @@ package programming;
 import programming.enums.Operation;
 import programming.enums.Table;
 import programming.service.MentorService;
+import programming.service.MenuService;
 import programming.service.ProgrammingLanguageService;
 import programming.service.StudentService;
 
@@ -17,12 +18,12 @@ public class Application {
         ProgrammingLanguageService programmingLanguageService = new ProgrammingLanguageService();
 
         while (true) {
-            Table.buildMenu();
+            MenuService.printMenu();
             System.out.println("Введите номер таблицы.");
             int tableNumber = scanner.nextInt();
             Table table = Table.findByTableNumber(tableNumber);
             if (table == null) System.out.println("Введён неверный номер таблицы");
-            else Table.showOperations(table);
+            else MenuService.printOperationsList(table);
             System.out.println("Введите номер операции.");
             int operationNumber = scanner.nextInt();
             Operation operation = Operation.findByOperationNumber(operationNumber);
@@ -64,6 +65,8 @@ public class Application {
                         break;
                     case TWELFTH:
                         programmingLanguageService.delete();
+                        break;
+                    case THIRTEENTH:
                         break;
                 }
             }

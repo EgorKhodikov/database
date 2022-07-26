@@ -6,11 +6,11 @@ import java.util.List;
 public enum Table {
 
     STUDENT(1, "student", Arrays.asList(Operation.FIRST, Operation.SECOND, Operation.THIRD,
-            Operation.FOURTH)),
+            Operation.FOURTH, Operation.THIRTEENTH)),
     MENTOR(2, "mentor", Arrays.asList(Operation.FIFTH, Operation.SIXTH, Operation.SEVENTH,
-            Operation.EIGHTH)),
+            Operation.EIGHTH, Operation.THIRTEENTH)),
     PROGRAMMING_LANGUAGE(3, "programming_language", Arrays.asList(Operation.NINTH, Operation.TENTH,
-            Operation.ELEVENTH, Operation.TWELFTH));
+            Operation.ELEVENTH, Operation.TWELFTH, Operation.THIRTEENTH));
     private final int tableNumber;
     private final String title;
     private final List<Operation> operations;
@@ -40,15 +40,21 @@ public enum Table {
         return null;
     }
 
-    public static void showOperations(Table table) {
+    public static String buildOperationsList(Table table) {
+        StringBuilder operationsList = new StringBuilder("");
         for (Operation operation : table.getOperations()) {
-            System.out.println(operation.getOperationNumber() + ". " + operation.getOperationTitle());
+            String s = operation.getOperationNumber() + ". " + operation.getOperationTitle() + "\n";
+            operationsList.append(s);
         }
+        return operationsList.toString();
     }
 
-    public static void buildMenu() {
-        System.out.println(STUDENT.tableNumber + ". " + STUDENT.title + "\n" +
-                MENTOR.tableNumber + ". " + MENTOR.title + "\n" +
-                PROGRAMMING_LANGUAGE.tableNumber + ". " + PROGRAMMING_LANGUAGE.title + "\n");
+    public static String buildMenu() {
+        StringBuilder menu = new StringBuilder("");
+        for (Table table : Table.values()) {
+            String s = table.tableNumber + ". " + table.title + "\n";
+            menu.append(s);
+        }
+        return menu.toString();
     }
 }

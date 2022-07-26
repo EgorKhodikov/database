@@ -2,14 +2,11 @@ package programming.bean;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "mentor")
-public class Mentor {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class Mentor extends BasePersist{
 
     @Column(name = "last_name")
     private String lastName;
@@ -26,10 +23,6 @@ public class Mentor {
 
     public Mentor(String lastName) {
         this.lastName = lastName;
-    }
-
-    public Integer getId() {
-        return id;
     }
 
     public String getLastName() {
@@ -59,5 +52,10 @@ public class Mentor {
     @Override
     public String toString() {
         return lastName + " programming language: " + programmingLanguage + " students: " + students;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), lastName, students, programmingLanguage);
     }
 }
