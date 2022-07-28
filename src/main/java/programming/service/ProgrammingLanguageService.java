@@ -57,4 +57,16 @@ public class ProgrammingLanguageService {
             System.out.println("Язык с таким ID не найден");
         }
     }
+
+    public void findMentorByLanguageId() {
+        System.out.println("Введите ID языка");
+        Integer id = Application.scanner.nextInt();
+        try {
+            String mentorLastName = programmingLanguageDao.findMentorByLanguageId(id);
+            if (mentorLastName == null) throw new NullPointerException();
+            System.out.println(mentorLastName);
+        } catch (NullPointerException e) {
+            System.out.println("Ни один ментор не привязан к данному языку программирования");
+        }
+    }
 }

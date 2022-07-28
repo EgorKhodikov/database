@@ -17,6 +17,14 @@ public class Application {
         MentorService mentorService = new MentorService();
         ProgrammingLanguageService programmingLanguageService = new ProgrammingLanguageService();
 
+        studentService.findMentorNamesListByStudentStages();
+
+        mentorService.findLanguageNameListFromMentors();
+
+        mentorService.findLanguageByMentorId();
+
+        programmingLanguageService.findMentorByLanguageId();
+
         while (true) {
             MenuService.printMenu();
             System.out.println("Введите номер таблицы.");

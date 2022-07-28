@@ -37,7 +37,7 @@ public class Student extends BasePersist{
         this.lastName = lastName;
     }
 
-    public int getStage() {
+    public Integer getStage() {
         return stage;
     }
 

@@ -4,6 +4,8 @@ import programming.Application;
 import programming.bean.Student;
 import programming.dao.StudentDao;
 
+import java.util.List;
+
 public class StudentService {
     private final StudentDao studentDao = new StudentDao();
 
@@ -60,6 +62,18 @@ public class StudentService {
             System.out.println("Студент удалён");
         } catch (NullPointerException e) {
             System.out.println("Студент с таким ID не найден");
+        }
+    }
+
+    public void findMentorNamesListByStudentStages() {
+        System.out.println("Введите этап студентов");
+        Integer stage = Application.scanner.nextInt();
+        try {
+            List<String> mentorNames = studentDao.findMentorNamesListByStudentStages(stage);
+            if (mentorNames.get(0) == null) throw new NullPointerException();
+            mentorNames.forEach(System.out::println);
+        } catch (NullPointerException e) {
+            System.out.println("Введено не правильное значение этапа либо на данном этапе нет студентов");
         }
     }
 }

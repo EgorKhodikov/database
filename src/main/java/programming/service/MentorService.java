@@ -4,6 +4,8 @@ import programming.Application;
 import programming.bean.Mentor;
 import programming.dao.MentorDao;
 
+import java.util.List;
+
 public class MentorService {
     private final MentorDao mentorDao = new MentorDao();
 
@@ -55,5 +57,22 @@ public class MentorService {
         } catch (NullPointerException e) {
             System.out.println("Ментор с таким ID не найден");
         }
+    }
+
+    public void findLanguageByMentorId() {
+        System.out.println("Введите ID ментора");
+        Integer id = Application.scanner.nextInt();
+        try {
+            String languageName = mentorDao.findLanguageByMentorId(id);
+            if (languageName == null) throw new NullPointerException();
+            System.out.println(languageName);
+        } catch (NullPointerException e) {
+            System.out.println("Ни один язык программирования не привязан к данному ментору");
+        }
+    }
+
+    public void findLanguageNameListFromMentors() {
+        List<String> languageNames = mentorDao.findLanguageNameListFromMentors();
+        languageNames.forEach(System.out::println);
     }
 }
