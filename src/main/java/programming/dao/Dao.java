@@ -1,7 +1,5 @@
 package programming.dao;
 
-import programming.bean.Student;
-
 public interface Dao<T> {
 
     T save(T t);

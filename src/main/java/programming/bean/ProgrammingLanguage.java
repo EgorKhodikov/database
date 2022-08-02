@@ -11,10 +11,10 @@ public class ProgrammingLanguage extends BasePersist{
     @Column(name = "language_name")
     private String languageName;
 
-    @OneToOne(mappedBy = "programmingLanguage")
+    @OneToOne
     private Mentor mentor;
 
-    @OneToMany(mappedBy = "programmingLanguage")
+    @OneToMany
     private List<Student> students;
 
     public ProgrammingLanguage() {

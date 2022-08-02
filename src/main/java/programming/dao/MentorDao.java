@@ -1,11 +1,9 @@
 package programming.dao;
 
-import org.hibernate.Criteria;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.hibernate.*;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.query.Query;
 import programming.bean.Mentor;
 import programming.bean.ProgrammingLanguage;
 import programming.util.HibernateSessionFactoryUtil;
@@ -97,5 +95,20 @@ public class MentorDao implements Dao<Mentor> {
         transaction.commit();
         session.close();
         return languageNames;
+    }
+
+    public Mentor findByHql(Integer id) {
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Mentor mentor = null;
+        try {
+            String hql = "FROM Mentor where id = " + id;
+            Query query = session.createQuery(hql);
+            mentor = (Mentor) query.uniqueResult();
+            Hibernate.initialize(mentor);
+        } catch (HibernateException e) {
+
+        }
+        session.close();
+        return mentor;
     }
 }

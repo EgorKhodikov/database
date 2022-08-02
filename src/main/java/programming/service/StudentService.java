@@ -76,4 +76,11 @@ public class StudentService {
             System.out.println("Введено не правильное значение этапа либо на данном этапе нет студентов");
         }
     }
+
+    public void countStudentsNumberByLanguageName() {
+        System.out.println("Введите название языка");
+        String languageName = Application.scanner.nextLine();
+        Integer studentsCount = studentDao.countStudentsNumberByLanguageName(languageName);
+        System.out.println("Количество студентов: " + studentsCount);
+    }
 }

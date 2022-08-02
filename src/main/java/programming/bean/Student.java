@@ -13,12 +13,10 @@ public class Student extends BasePersist{
     @Column(name = "stage")
     private Integer stage;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "mentor_id")
+    @ManyToOne
     private Mentor mentor;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "language_id")
+    @ManyToOne
     private ProgrammingLanguage programmingLanguage;
 
     public Student() {

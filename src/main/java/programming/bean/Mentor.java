@@ -11,11 +11,10 @@ public class Mentor extends BasePersist{
     @Column(name = "last_name")
     private String lastName;
 
-    @OneToMany(mappedBy = "mentor")
+    @OneToMany
     private List<Student> students;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "language_id")
+    @OneToOne
     private ProgrammingLanguage programmingLanguage;
 
     public Mentor() {
@@ -51,7 +50,11 @@ public class Mentor extends BasePersist{
 
     @Override
     public String toString() {
-        return lastName + " programming language: " + programmingLanguage + " students: " + students;
+        return "Mentor{" +
+                "lastName='" + lastName + '\'' +
+                ", students=" + students +
+                ", programmingLanguage=" + programmingLanguage +
+                "} " + super.toString();
     }
 
     @Override

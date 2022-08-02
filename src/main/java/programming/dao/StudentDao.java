@@ -80,4 +80,22 @@ public class StudentDao implements Dao<Student> {
         session.close();
         return mentorNames;
     }
+
+    public Integer countStudentsNumberByLanguageName(String languageName) {
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        Integer studentsCount = null;
+        try {
+            Criteria criteria = session.createCriteria(Student.class);
+            criteria.createAlias("programmingLanguage", "programmingLanguage");
+            criteria.add(Restrictions.eq("programmingLanguage.languageName", languageName));
+            criteria.setProjection(Projections.rowCount());
+            studentsCount = Integer.parseInt(criteria.uniqueResult().toString());
+        } catch (HibernateException e) {
+            transaction.rollback();
+        }
+        transaction.commit();
+        session.close();
+        return studentsCount;
+    }
 }

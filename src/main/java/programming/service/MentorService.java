@@ -75,4 +75,16 @@ public class MentorService {
         List<String> languageNames = mentorDao.findLanguageNameListFromMentors();
         languageNames.forEach(System.out::println);
     }
+
+    public void findByHql() {
+        System.out.println("Введите ID ментора");
+        Integer id = Application.scanner.nextInt();
+        try {
+            Mentor mentor = mentorDao.findByHql(id);
+            if (mentor == null) throw new NullPointerException();
+            System.out.println(mentor);
+        } catch (NullPointerException e) {
+            System.out.println("Ментор с таким ID не найден");
+        }
+    }
 }
