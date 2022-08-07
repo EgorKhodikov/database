@@ -97,8 +97,7 @@ public class MentorDao implements Dao<Mentor> {
         return languageNames;
     }
 
-    public Mentor findByHql(Integer id) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+    public Mentor findByHql(Integer id, Session session) {
         Mentor mentor = null;
         try {
             String hql = "FROM Mentor where id = " + id;
@@ -106,9 +105,12 @@ public class MentorDao implements Dao<Mentor> {
             mentor = (Mentor) query.uniqueResult();
             Hibernate.initialize(mentor);
         } catch (HibernateException e) {
-
+            System.out.println(e.getMessage());
         }
-        session.close();
         return mentor;
+    }
+
+    public Session getSession() {
+        return HibernateSessionFactoryUtil.getSessionFactory().openSession();
     }
 }

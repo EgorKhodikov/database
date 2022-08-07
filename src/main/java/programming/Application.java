@@ -1,9 +1,6 @@
 package programming;
 
-import programming.enums.Operation;
-import programming.enums.Table;
 import programming.service.MentorService;
-import programming.service.MenuService;
 import programming.service.ProgrammingLanguageService;
 import programming.service.StudentService;
 
@@ -17,7 +14,9 @@ public class Application {
         MentorService mentorService = new MentorService();
         ProgrammingLanguageService programmingLanguageService = new ProgrammingLanguageService();
 
-//        mentorService.findByHql();
+//        System.out.println(childDao.findByHql(1));
+
+        mentorService.findByHql();
 
 //        studentService.countStudentsNumberByLanguageName();
 //

@@ -16,9 +16,6 @@ public class Student extends BasePersist{
     @ManyToOne
     private Mentor mentor;
 
-    @ManyToOne
-    private ProgrammingLanguage programmingLanguage;
-
     public Student() {
     }
 
@@ -51,22 +48,18 @@ public class Student extends BasePersist{
         this.mentor = mentor;
     }
 
-    public ProgrammingLanguage getProgrammingLanguage() {
-        return programmingLanguage;
-    }
-
-    public void setProgrammingLanguage(ProgrammingLanguage programmingLanguage) {
-        this.programmingLanguage = programmingLanguage;
-    }
-
     @Override
     public String toString() {
-        return lastName + " stage: " + stage + " programming language: " + programmingLanguage + " mentor: " + mentor;
+        return "Student{" +
+                "lastName='" + lastName + '\'' +
+                ", stage=" + stage +
+                ", mentor=" + mentor +
+                "} " + super.toString();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), lastName, stage, mentor, programmingLanguage);
+        return Objects.hash(super.hashCode(), lastName, stage, mentor);
     }
 }
 

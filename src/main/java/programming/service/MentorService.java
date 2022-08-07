@@ -1,5 +1,6 @@
 package programming.service;
 
+import org.hibernate.Session;
 import programming.Application;
 import programming.bean.Mentor;
 import programming.dao.MentorDao;
@@ -79,12 +80,14 @@ public class MentorService {
     public void findByHql() {
         System.out.println("Введите ID ментора");
         Integer id = Application.scanner.nextInt();
+        Session session = mentorDao.getSession();
         try {
-            Mentor mentor = mentorDao.findByHql(id);
+            Mentor mentor = mentorDao.findByHql(id, session);
             if (mentor == null) throw new NullPointerException();
             System.out.println(mentor);
         } catch (NullPointerException e) {
             System.out.println("Ментор с таким ID не найден");
         }
+        session.close();
     }
 }

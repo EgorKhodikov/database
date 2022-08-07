@@ -3,9 +3,7 @@ package programming.util;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-import programming.bean.Mentor;
-import programming.bean.ProgrammingLanguage;
-import programming.bean.Student;
+import programming.bean.*;
 
 public final class HibernateSessionFactoryUtil {
     private static SessionFactory sessionFactory;
