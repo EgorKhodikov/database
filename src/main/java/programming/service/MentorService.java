@@ -1,6 +1,5 @@
 package programming.service;
 
-import org.hibernate.Session;
 import programming.Application;
 import programming.bean.Mentor;
 import programming.dao.MentorDao;
@@ -10,16 +9,17 @@ import java.util.List;
 public class MentorService {
     private final MentorDao mentorDao = new MentorDao();
 
-    public void findById() {
+    public Mentor findById() {
         System.out.println("Введите ID ментора.");
         Integer id = Application.scanner.nextInt();
+        Mentor mentor = null;
         try {
-            Mentor mentor = mentorDao.findById(id);
+            mentor = mentorDao.findById(id);
             if (mentor == null) throw new NullPointerException();
-            System.out.println(mentor.toString());
         } catch (NullPointerException e) {
             System.out.println("Ментор с таким ID не найден");
         }
+        return mentor;
     }
 
     public void save() {
@@ -42,6 +42,7 @@ public class MentorService {
             String lastName = Application.scanner.nextLine();
             mentor.setLastName(lastName);
             mentorDao.update(mentor);
+            System.out.println("Ментор обновлён");
         } catch (NullPointerException e) {
             System.out.println("Ментор с таким ID не найден");
         }
@@ -60,34 +61,42 @@ public class MentorService {
         }
     }
 
-    public void findLanguageByMentorId() {
-        System.out.println("Введите ID ментора");
+    public Mentor findMentorByLanguageId() {
+        System.out.println("Введите ID языка");
         Integer id = Application.scanner.nextInt();
+        Mentor mentor = null;
         try {
-            String languageName = mentorDao.findLanguageByMentorId(id);
-            if (languageName == null) throw new NullPointerException();
-            System.out.println(languageName);
-        } catch (NullPointerException e) {
-            System.out.println("Ни один язык программирования не привязан к данному ментору");
-        }
-    }
-
-    public void findLanguageNameListFromMentors() {
-        List<String> languageNames = mentorDao.findLanguageNameListFromMentors();
-        languageNames.forEach(System.out::println);
-    }
-
-    public void findByHql() {
-        System.out.println("Введите ID ментора");
-        Integer id = Application.scanner.nextInt();
-        Session session = mentorDao.getSession();
-        try {
-            Mentor mentor = mentorDao.findByHql(id, session);
+            mentor = mentorDao.findMentorByLanguageId(id);
             if (mentor == null) throw new NullPointerException();
-            System.out.println(mentor);
+        } catch (NullPointerException e) {
+            System.out.println("Ни один ментор не привязан к данному языку программирования");
+        }
+        return mentor;
+    }
+
+    public List<String> findMentorNamesListByStudentStages() {
+        System.out.println("Введите этап студентов");
+        Integer stage = Application.scanner.nextInt();
+        List<String> mentorNames = null;
+        try {
+            mentorNames = mentorDao.findMentorNamesListByStudentStages(stage);
+            if (mentorNames.get(0) == null) throw new NullPointerException();
+        } catch (NullPointerException e) {
+            System.out.println("Введено не правильное значение этапа либо на данном этапе нет студентов");
+        }
+        return mentorNames;
+    }
+
+    public Mentor findByIdHql() {
+        System.out.println("Введите ID ментора");
+        Integer id = Application.scanner.nextInt();
+        Mentor mentor = null;
+        try {
+            mentor = mentorDao.findByIdHql(id);
+            if (mentor == null) throw new NullPointerException();
         } catch (NullPointerException e) {
             System.out.println("Ментор с таким ID не найден");
         }
-        session.close();
+        return mentor;
     }
 }

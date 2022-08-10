@@ -2,7 +2,7 @@ package programming.service;
 
 import programming.enums.Table;
 
-public class MenuService {
+public class PrintingMenuService {
     public static void printMenu() {
         System.out.println(Table.buildMenu());
     }

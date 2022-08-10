@@ -1,7 +1,6 @@
 package programming.bean;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -10,9 +9,6 @@ public class Mentor extends BasePersist{
 
     @Column(name = "last_name")
     private String lastName;
-
-    @OneToMany
-    private List<Student> students;
 
     @OneToOne
     private ProgrammingLanguage programmingLanguage;
@@ -32,14 +28,6 @@ public class Mentor extends BasePersist{
         this.lastName = lastName;
     }
 
-    public List<Student> getStudents() {
-        return students;
-    }
-
-    public void setStudents(List<Student> students) {
-        this.students = students;
-    }
-
     public ProgrammingLanguage getProgrammingLanguage() {
         return programmingLanguage;
     }
@@ -52,13 +40,21 @@ public class Mentor extends BasePersist{
     public String toString() {
         return "Mentor{" +
                 "lastName='" + lastName + '\'' +
-                ", students=" + students +
                 ", programmingLanguage=" + programmingLanguage +
                 "} " + super.toString();
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Mentor mentor = (Mentor) o;
+        return Objects.equals(lastName, mentor.lastName) && Objects.equals(programmingLanguage, mentor.programmingLanguage);
+    }
+
+    @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), lastName, students, programmingLanguage);
+        return Objects.hash(super.hashCode(), lastName, programmingLanguage);
     }
 }

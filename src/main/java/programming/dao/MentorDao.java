@@ -5,11 +5,10 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import programming.bean.Mentor;
-import programming.bean.ProgrammingLanguage;
+import programming.bean.Student;
 import programming.util.HibernateSessionFactoryUtil;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class MentorDao implements Dao<Mentor> {
     @Override
@@ -62,55 +61,49 @@ public class MentorDao implements Dao<Mentor> {
         session.close();
     }
 
-    public String findLanguageByMentorId(Integer id) {
+    public Mentor findMentorByLanguageId(Integer id) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
-        String languageName = null;
-        try {
-            Criteria criteria = session.createCriteria(Mentor.class);
-            criteria.add(Restrictions.eq("id", id));
-            List<Mentor> mentors = criteria.list();
-            ProgrammingLanguage programmingLanguage = mentors.get(0).getProgrammingLanguage();
-            languageName = programmingLanguage.getLanguageName();
-        } catch (HibernateException e) {
-            transaction.rollback();
-        }
-        transaction.commit();
-        session.close();
-        return languageName;
-    }
-
-    public List<String> findLanguageNameListFromMentors() {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
-        List<String> languageNames = null;
-        try {
-            Criteria criteria = session.createCriteria(Mentor.class);
-            criteria.createAlias("programmingLanguage", "programmingLanguage");
-            criteria.setProjection(Projections.distinct(Projections.property("programmingLanguage.languageName")));
-            languageNames = criteria.list();
-        } catch (HibernateException e) {
-            transaction.rollback();
-        }
-        transaction.commit();
-        session.close();
-        return languageNames;
-    }
-
-    public Mentor findByHql(Integer id, Session session) {
         Mentor mentor = null;
         try {
-            String hql = "FROM Mentor where id = " + id;
-            Query query = session.createQuery(hql);
-            mentor = (Mentor) query.uniqueResult();
-            Hibernate.initialize(mentor);
+            Criteria criteria = session.createCriteria(Mentor.class);
+            criteria.add(Restrictions.eq("programmingLanguage.id", id));
+            mentor = (Mentor) criteria.uniqueResult();
+            Hibernate.initialize(mentor.getProgrammingLanguage());
         } catch (HibernateException e) {
-            System.out.println(e.getMessage());
+            transaction.rollback();
         }
+        transaction.commit();
+        session.close();
         return mentor;
     }
 
-    public Session getSession() {
-        return HibernateSessionFactoryUtil.getSessionFactory().openSession();
+    public List<String> findMentorNamesListByStudentStages(Integer stage) {
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        List<String> mentorNames = null;
+        try {
+            Criteria criteria = session.createCriteria(Student.class);
+            criteria.add(Restrictions.eq("stage", stage));
+            criteria.createAlias("mentor", "mentor");
+            criteria.setProjection(Projections.distinct(Projections.property("mentor.lastName")));
+            mentorNames = criteria.list();
+        } catch (HibernateException e) {
+            transaction.rollback();
+        }
+        transaction.commit();
+        session.close();
+        return mentorNames;
+    }
+
+    public Mentor findByIdHql(Integer id) {
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Mentor mentor;
+        String hql = "FROM Mentor where id = " + id;
+        Query query = session.createQuery(hql);
+        mentor = (Mentor) query.uniqueResult();
+        Hibernate.initialize(mentor.getProgrammingLanguage());
+        session.close();
+        return mentor;
     }
 }

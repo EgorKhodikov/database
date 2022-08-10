@@ -4,19 +4,22 @@ import programming.Application;
 import programming.bean.ProgrammingLanguage;
 import programming.dao.ProgrammingLanguageDao;
 
+import java.util.List;
+
 public class ProgrammingLanguageService {
     private final ProgrammingLanguageDao programmingLanguageDao = new ProgrammingLanguageDao();
 
-    public void findById() {
+    public ProgrammingLanguage findById() {
         System.out.println("Введите ID языка.");
         Integer id = Application.scanner.nextInt();
+        ProgrammingLanguage programmingLanguage = null;
         try {
-            ProgrammingLanguage programmingLanguage = programmingLanguageDao.findById(id);
+            programmingLanguage = programmingLanguageDao.findById(id);
             if (programmingLanguage == null) throw new NullPointerException();
-            System.out.println(programmingLanguage.toString());
         } catch (NullPointerException e) {
             System.out.println("Язык с таким ID не найден");
         }
+        return programmingLanguage;
     }
 
     public void save() {
@@ -58,15 +61,20 @@ public class ProgrammingLanguageService {
         }
     }
 
-    public void findMentorByLanguageId() {
-        System.out.println("Введите ID языка");
+    public ProgrammingLanguage findLanguageByMentorId() {
+        System.out.println("Введите ID ментора");
         Integer id = Application.scanner.nextInt();
+        ProgrammingLanguage programmingLanguage = null;
         try {
-            String mentorLastName = programmingLanguageDao.findMentorByLanguageId(id);
-            if (mentorLastName == null) throw new NullPointerException();
-            System.out.println(mentorLastName);
+            programmingLanguage = programmingLanguageDao.findLanguageByMentorId(id);
+            if (programmingLanguage == null) throw new NullPointerException();
         } catch (NullPointerException e) {
-            System.out.println("Ни один ментор не привязан к данному языку программирования");
+            System.out.println("Ни один язык программирования не привязан к данному ментору");
         }
+        return programmingLanguage;
+    }
+
+    public List<String> findLanguageNamesListFromMentors() {
+        return programmingLanguageDao.findLanguageNamesListFromMentors();
     }
 }

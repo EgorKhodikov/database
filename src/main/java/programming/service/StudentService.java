@@ -4,21 +4,20 @@ import programming.Application;
 import programming.bean.Student;
 import programming.dao.StudentDao;
 
-import java.util.List;
-
 public class StudentService {
     private final StudentDao studentDao = new StudentDao();
 
-    public void findById() {
+    public Student findById() {
         System.out.println("Введите ID студента.");
         Integer id = Application.scanner.nextInt();
+        Student student = null;
         try {
-            Student student = studentDao.findById(id);
+            student = studentDao.findById(id);
             if (student == null) throw new NullPointerException();
-            System.out.println(student.toString());
         } catch (NullPointerException e) {
             System.out.println("Студент с таким ID не найден");
         }
+        return student;
     }
 
     public void save() {
@@ -65,22 +64,9 @@ public class StudentService {
         }
     }
 
-    public void findMentorNamesListByStudentStages() {
-        System.out.println("Введите этап студентов");
-        Integer stage = Application.scanner.nextInt();
-        try {
-            List<String> mentorNames = studentDao.findMentorNamesListByStudentStages(stage);
-            if (mentorNames.get(0) == null) throw new NullPointerException();
-            mentorNames.forEach(System.out::println);
-        } catch (NullPointerException e) {
-            System.out.println("Введено не правильное значение этапа либо на данном этапе нет студентов");
-        }
-    }
-
-    public void countStudentsNumberByLanguageName() {
+    public Integer countStudentsNumberByLanguageName() {
         System.out.println("Введите название языка");
         String languageName = Application.scanner.nextLine();
-        Integer studentsCount = studentDao.countStudentsNumberByLanguageName(languageName);
-        System.out.println("Количество студентов: " + studentsCount);
+        return studentDao.countStudentsNumberByLanguageName(languageName);
     }
 }

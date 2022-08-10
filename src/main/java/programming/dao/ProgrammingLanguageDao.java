@@ -4,6 +4,7 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import programming.bean.Mentor;
 import programming.bean.ProgrammingLanguage;
@@ -62,21 +63,36 @@ public class ProgrammingLanguageDao implements Dao<ProgrammingLanguage> {
         session.close();
     }
 
-    public String findMentorByLanguageId(Integer id) {
+    public ProgrammingLanguage findLanguageByMentorId(Integer id) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
-        String mentorLastName = null;
+        ProgrammingLanguage programmingLanguage = null;
         try {
-            Criteria criteria = session.createCriteria(ProgrammingLanguage.class);
+            Criteria criteria = session.createCriteria(Mentor.class);
             criteria.add(Restrictions.eq("id", id));
-            List<ProgrammingLanguage> programmingLanguages = criteria.list();
-            Mentor mentor = programmingLanguages.get(0).getMentor();
-            mentorLastName = mentor.getLastName();
+            programmingLanguage = ((Mentor)criteria.uniqueResult()).getProgrammingLanguage();
         } catch (HibernateException e) {
             transaction.rollback();
         }
         transaction.commit();
         session.close();
-        return mentorLastName;
+        return programmingLanguage;
+    }
+
+    public List<String> findLanguageNamesListFromMentors() {
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        List<String> languageNames = null;
+        try {
+            Criteria criteria = session.createCriteria(Mentor.class);
+            criteria.createAlias("programmingLanguage", "programmingLanguage");
+            criteria.setProjection(Projections.distinct(Projections.property("programmingLanguage.languageName")));
+            languageNames = criteria.list();
+        } catch (HibernateException e) {
+            transaction.rollback();
+        }
+        transaction.commit();
+        session.close();
+        return languageNames;
     }
 }

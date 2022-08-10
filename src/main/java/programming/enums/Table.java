@@ -5,12 +5,12 @@ import java.util.List;
 
 public enum Table {
 
-    STUDENT(1, "student", Arrays.asList(Operation.FIRST, Operation.SECOND, Operation.THIRD,
-            Operation.FOURTH, Operation.THIRTEENTH)),
-    MENTOR(2, "mentor", Arrays.asList(Operation.FIFTH, Operation.SIXTH, Operation.SEVENTH,
-            Operation.EIGHTH, Operation.THIRTEENTH)),
-    PROGRAMMING_LANGUAGE(3, "programming_language", Arrays.asList(Operation.NINTH, Operation.TENTH,
-            Operation.ELEVENTH, Operation.TWELFTH, Operation.THIRTEENTH));
+    STUDENT(1, "student", Arrays.asList(Operation.FIRST, Operation.FOURTH, Operation.SEVENTH,
+            Operation.TENTH, Operation.THIRTEENTH, Operation.FOURTEENTH)),
+    MENTOR(2, "mentor", Arrays.asList(Operation.SECOND, Operation.FIFTH, Operation.EIGHTH,
+            Operation.ELEVENTH, Operation.FIFTEENTH, Operation.SIXTEENTH, Operation.SEVENTEENTH, Operation.EIGHTEENTH)),
+    PROGRAMMING_LANGUAGE(3, "programming_language", Arrays.asList(Operation.THIRD, Operation.SIXTH,
+            Operation.NINTH, Operation.TWELFTH, Operation.NINETEENTH, Operation.TWENTIETH, Operation.TWENTY_FIRST));
     private final int tableNumber;
     private final String title;
     private final List<Operation> operations;
@@ -41,7 +41,7 @@ public enum Table {
     }
 
     public static String buildOperationsList(Table table) {
-        StringBuilder operationsList = new StringBuilder("");
+        StringBuilder operationsList = new StringBuilder();
         for (Operation operation : table.getOperations()) {
             String s = operation.getOperationNumber() + ". " + operation.getOperationTitle() + "\n";
             operationsList.append(s);
@@ -50,7 +50,7 @@ public enum Table {
     }
 
     public static String buildMenu() {
-        StringBuilder menu = new StringBuilder("");
+        StringBuilder menu = new StringBuilder();
         for (Table table : Table.values()) {
             String s = table.tableNumber + ". " + table.title + "\n";
             menu.append(s);
