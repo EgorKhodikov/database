@@ -1,36 +1,36 @@
 package programming.enums;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.stream.Collectors;
 
 public enum Table {
 
-    STUDENT(1, "student", Arrays.asList(Operation.FIRST, Operation.FOURTH, Operation.SEVENTH,
-            Operation.TENTH, Operation.THIRTEENTH, Operation.FOURTEENTH)),
-    MENTOR(2, "mentor", Arrays.asList(Operation.SECOND, Operation.FIFTH, Operation.EIGHTH,
-            Operation.ELEVENTH, Operation.FIFTEENTH, Operation.SIXTEENTH, Operation.SEVENTEENTH, Operation.EIGHTEENTH)),
-    PROGRAMMING_LANGUAGE(3, "programming_language", Arrays.asList(Operation.THIRD, Operation.SIXTH,
-            Operation.NINTH, Operation.TWELFTH, Operation.NINETEENTH, Operation.TWENTIETH, Operation.TWENTY_FIRST));
+    STUDENT(1, "student", "Студент"),
+
+    MENTOR(2, "mentor", "Ментор"),
+
+    PROGRAMMING_LANGUAGE(3, "programming_language", "Язык");
+
     private final int tableNumber;
     private final String title;
-    private final List<Operation> operations;
+    private final String rusTitle;
 
-    Table(int tableNumber, String title, List<Operation> operations) {
+    Table(int tableNumber, String title, String rusTitle) {
         this.tableNumber = tableNumber;
         this.title = title;
-        this.operations = operations;
+        this.rusTitle = rusTitle;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public int getTableNumber() {
-        return tableNumber;
+    public String getRusTitle() {
+        return rusTitle;
     }
 
-    public List<Operation> getOperations() {
-        return operations;
+    public int getTableNumber() {
+        return tableNumber;
     }
 
     public static Table findByTableNumber(int tableNumber) {
@@ -41,12 +41,13 @@ public enum Table {
     }
 
     public static String buildOperationsList(Table table) {
-        StringBuilder operationsList = new StringBuilder();
-        for (Operation operation : table.getOperations()) {
-            String s = operation.getOperationNumber() + ". " + operation.getOperationTitle() + "\n";
-            operationsList.append(s);
-        }
-        return operationsList.toString();
+        return Arrays.stream(Operation.values())
+                .map(operation -> {
+                    StringBuilder result = new StringBuilder(operation.getOperationNumber() + ". ");
+                    if (Operation.BACK.equals(operation)) return  result.append(operation.getOperationTitle()).toString();
+                    else return result.append(String.format(operation.getOperationTitle(), table.getRusTitle())).toString();
+                })
+                .collect(Collectors.joining("\n"));
     }
 
     public static String buildMenu() {

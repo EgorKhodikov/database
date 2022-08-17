@@ -3,6 +3,7 @@ package programming;
 import programming.enums.Operation;
 import programming.enums.Table;
 import programming.service.*;
+import programming.util.HibernateSessionFactoryUtil;
 
 import java.util.Scanner;
 
@@ -10,6 +11,7 @@ public class Application {
     public static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
+        HibernateSessionFactoryUtil.getSessionFactory();
         StudentService studentService = new StudentService();
         MentorService mentorService = new MentorService();
         ProgrammingLanguageService programmingLanguageService = new ProgrammingLanguageService();
@@ -21,6 +23,7 @@ public class Application {
             Table table = Table.findByTableNumber(tableNumber);
             if (table == null) System.out.println("Введён неверный номер таблицы");
             else {
+                PrintingResultService printingResultService = new PrintingResultService();
                 PrintingMenuService.printOperationsList(table);
                 System.out.println("Введите номер операции.");
                 int operationNumber = scanner.nextInt();
@@ -28,67 +31,59 @@ public class Application {
                 if (operation == null) System.out.println("Введён неверный номер операции");
                 else {
                     switch (operation) {
-                        case FIRST:
-                            PrintingResultService.printStudent(studentService.findById());
+                        case FIND_BY_ID:
+                            switch (table) {
+                                case STUDENT:
+                                    printingResultService.printStudent(studentService.findById());
+                                    break;
+                                case MENTOR:
+                                    printingResultService.printMentor(mentorService.findById());
+                                    break;
+                                case PROGRAMMING_LANGUAGE:
+                                    printingResultService.printProgrammingLanguage(programmingLanguageService.findById());
+                                    break;
+                            }
                             break;
-                        case SECOND:
-                            PrintingResultService.printMentor(mentorService.findById());
+                        case INSERT:
+                            switch (table) {
+                                case STUDENT:
+                                    studentService.save();
+                                    break;
+                                case MENTOR:
+                                    mentorService.save();
+                                    break;
+                                case PROGRAMMING_LANGUAGE:
+                                    programmingLanguageService.save();
+                                    break;
+                            }
                             break;
-                        case THIRD:
-                            PrintingResultService.printProgrammingLanguage(programmingLanguageService.findById());
+                        case UPDATE:
+                            switch (table) {
+                                case STUDENT:
+                                    studentService.update();
+                                    break;
+                                case MENTOR:
+                                    mentorService.update();
+                                    break;
+                                case PROGRAMMING_LANGUAGE:
+                                    programmingLanguageService.update();
+                                    break;
+                            }
                             break;
-                        case FOURTH:
-                            studentService.save();
+                        case DELETE:
+                            switch (table) {
+                                case STUDENT:
+                                    studentService.delete();
+                                    break;
+                                case MENTOR:
+                                    mentorService.delete();
+                                    break;
+                                case PROGRAMMING_LANGUAGE:
+                                    programmingLanguageService.delete();
+                                    break;
+                            }
                             break;
-                        case FIFTH:
-                            mentorService.save();
-                            break;
-                        case SIXTH:
-                            programmingLanguageService.save();
-                            break;
-                        case SEVENTH:
-                            studentService.update();
-                            break;
-                        case EIGHTH:
-                            mentorService.update();
-                            break;
-                        case NINTH:
-                            programmingLanguageService.update();
-                            break;
-                        case TENTH:
-                            studentService.delete();
-                            break;
-                        case ELEVENTH:
-                            mentorService.delete();
-                            break;
-                        case TWELFTH:
-                            programmingLanguageService.delete();
-                            break;
-                        case THIRTEENTH:
-                            PrintingResultService.printStudentsNumber(studentService
-                                    .countStudentsNumberByLanguageName());
-                            break;
-                        case FOURTEENTH:
-                        case EIGHTEENTH:
-                        case TWENTY_FIRST:
-                            break;
-                        case FIFTEENTH:
-                            PrintingResultService.printMentor(mentorService.findByIdHql());
-                            break;
-                        case SIXTEENTH:
-                            PrintingResultService.printMentorNamesList(mentorService
-                                    .findMentorNamesListByStudentStages());
-                            break;
-                        case SEVENTEENTH:
-                            PrintingResultService.printMentor(mentorService.findMentorByLanguageId());
-                            break;
-                        case NINETEENTH:
-                            PrintingResultService.printLanguageNamesList(programmingLanguageService
-                                    .findLanguageNamesListFromMentors());
-                            break;
-                        case TWENTIETH:
-                            PrintingResultService.printProgrammingLanguage(programmingLanguageService
-                                    .findLanguageByMentorId());
+                        case BACK:
                             break;
                     }
                 }
