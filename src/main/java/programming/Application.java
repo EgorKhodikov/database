@@ -27,7 +27,7 @@ public class Application {
                 PrintingMenuService.printOperationsList(table);
                 System.out.println("Введите номер операции.");
                 int operationNumber = scanner.nextInt();
-                Operation operation = Operation.findByOperationNumber(operationNumber, table);
+                Operation operation = Operation.findByOperationNumber(operationNumber);
                 if (operation == null) System.out.println("Введён неверный номер операции");
                 else {
                     switch (operation) {
