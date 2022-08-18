@@ -43,7 +43,7 @@ public enum Table {
     public static String buildOperationsList(Table table) {
         return Arrays.stream(Operation.values())
                 .map(operation -> {
-                    StringBuilder result = new StringBuilder(operation.getOperationNumber() + ". ");
+                    StringBuilder result = new StringBuilder(operation.ordinal() + ". ");
                     if (Operation.BACK.equals(operation)) return  result.append(operation.getOperationTitle()).toString();
                     else return result.append(String.format(operation.getOperationTitle(), table.getRusTitle())).toString();
                 })
