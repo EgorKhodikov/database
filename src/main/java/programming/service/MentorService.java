@@ -99,4 +99,9 @@ public class MentorService {
         }
         return mentor;
     }
+
+    public void print(Mentor mentor) {
+        System.out.println("ментор: " + mentor.getLastName() + "\n"
+                + "язык: " + mentor.getProgrammingLanguage().getLanguageName());
+    }
 }

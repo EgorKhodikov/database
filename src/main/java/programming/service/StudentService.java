@@ -69,4 +69,10 @@ public class StudentService {
         String languageName = Application.scanner.nextLine();
         return studentDao.countStudentsNumberByLanguageName(languageName);
     }
+
+    public void print(Student student) {
+        System.out.println("студент: " + student.getLastName() + "\n"
+                + "этап: " + student.getStage() + "\n"
+                + "ментор: " + student.getMentor().getLastName());
+    }
 }

@@ -77,4 +77,8 @@ public class ProgrammingLanguageService {
     public List<String> findLanguageNamesListFromMentors() {
         return programmingLanguageDao.findLanguageNamesListFromMentors();
     }
+
+    public void print(ProgrammingLanguage programmingLanguage) {
+        System.out.println("язык: " + programmingLanguage.getLanguageName());
+    }
 }

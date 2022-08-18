@@ -23,7 +23,6 @@ public class Application {
             Table table = Table.findByTableNumber(tableNumber);
             if (table == null) System.out.println("Введён неверный номер таблицы");
             else {
-                PrintingResultService printingResultService = new PrintingResultService();
                 PrintingMenuService.printOperationsList(table);
                 System.out.println("Введите номер операции.");
                 int operationNumber = scanner.nextInt();
@@ -34,13 +33,13 @@ public class Application {
                         case FIND_BY_ID:
                             switch (table) {
                                 case STUDENT:
-                                    printingResultService.printStudent(studentService.findById());
+                                    studentService.print(studentService.findById());
                                     break;
                                 case MENTOR:
-                                    printingResultService.printMentor(mentorService.findById());
+                                    mentorService.print(mentorService.findById());
                                     break;
                                 case PROGRAMMING_LANGUAGE:
-                                    printingResultService.printProgrammingLanguage(programmingLanguageService.findById());
+                                    programmingLanguageService.print(programmingLanguageService.findById());
                                     break;
                             }
                             break;
